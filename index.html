@@ -1,79 +1,99 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rexume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parallox</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       background: black;
-      color: #00ff00;
-      font-family: "Courier New", Courier, monospace;
       overflow: hidden;
       height: 100%;
       width: 100%;
-    }.matrix {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  overflow: hidden;
-  z-index: 0;
-}
+    }
 
-canvas {
-  display: block;
-}
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
 
-.username {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #00bfff;
-  font-size: 12px;
-  font-family: "Courier New", Courier, monospace;
-  text-shadow: 0 0 5px #00bfff;
-  z-index: 1;
-}
+    .username {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #00bfff;
+      font-size: 20px;
+      font-family: "Courier New", Courier, monospace;
+      text-shadow: 0 0 5px #00bfff;
+      z-index: 2;
+    }
 
+    .invisible-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      background: transparent;
+      border: none;
+    }
   </style>
 </head>
 <body>
   <canvas id="matrixCanvas"></canvas>
-  <div class="username">@rxyxn.pxrkxr_</div>  <script>
+  <div class="username">
+    <a href="https://www.instagram.com/_parallox_/" target="_blank" style="color:#00bfff; text-decoration:none;">@_paralox_</a>
+  </div>
+  <button class="invisible-button" onclick="playSound()"></button>
+  <audio id="earblast" loop>
+    <source src="https://media.vocaroo.com/1cuSRkxoDnnV" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    // Matrix text animation
     const canvas = document.getElementById("matrixCanvas");
     const ctx = canvas.getContext("2d");
-
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
-
-    const letters = "REXUME";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
+    const letters = "PARALLOX".split("");
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
 
     function draw() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
       ctx.fillStyle = "#00ff00";
       ctx.font = fontSize + "px Courier New";
-
       for (let i = 0; i < drops.length; i++) {
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
-
     setInterval(draw, 50);
-  </script></body>
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Earblast trigger
+    function playSound() {
+      const audio = document.getElementById("earblast");
+      audio.volume = 1.0; // max volume
+      audio.playbackRate = 1.75; // optional: makes it high-pitched
+      audio.play().catch(err => console.error("Playback failed:", err));
+    }
+  </script>
+</body>
 </html>
